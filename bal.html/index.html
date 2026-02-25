@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <!-- SEO optimized meta tags -->
+    <title>Coming Soon · Next‑gen store</title>
+    <meta name="description"
+        content="Premium online store launching soon. Be the first to know and get exclusive updates.">
+    <meta name="keywords" content "coming soon, online store, premium, launch, notify me">
+    <meta name="author" content="Store">
+    <meta property="og:title" content="Something Amazing is Coming Soon">
+    <meta property="og:description" content="We’re building a powerful online store just for you.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Preconnect & fonts for speed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS (animate on scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Font Awesome 6 (free) for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* RESET & BASE — ultra modern, dark, glass */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #03050a;
+            color: #f0f3fa;
+            line-height: 1.5;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* loading overlay */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #03050a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+
+        #loader-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 255, 255, 0.15);
+            border-top: 4px solid #0ff;
+            border-right: 4px solid #f0f;
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            box-shadow: 0 0 25px #0ff, 0 0 45px #f0f;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* particles canvas background */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* main container */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* glassmorphism + neon glow utilities */
+        .glass-card {
+            background: rgba(10, 15, 25, 0.4);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            border-radius: 32px;
+            box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 255, 255, 0.1), 0 0 20px rgba(0, 255, 255, 0.3);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 22px 40px -12px #000, 0 0 0 2px rgba(0, 255, 255, 0.4), 0 0 45px #0ff;
+            transform: translateY(-5px);
+        }
+
+        /* HEADINGS */
+        h1 {
+            font-size: clamp(2.8rem, 12vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            background: linear-gradient(130deg, #fff, #b0f0ff, #c5a3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px #0ff, 0 0 45px #a0f;
+        }
+
+        .subhead {
+            font-size: clamp(1.1rem, 4vw, 1.6rem);
+            font-weight: 300;
+            color: rgba(220, 240, 255, 0.8);
+            margin-top: 1rem;
+            text-shadow: 0 0 10px #0ff66;
+        }
+
+        /* COUNTDOWN timer */
+        .countdown {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem 2rem;
+            margin: 2.5rem 0 2rem;
+        }
+
+        .countdown-item {
+            background: rgba(8, 15, 30, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            border-radius: 40px;
+            padding: 1rem 1.8rem;
+            min-width: 100px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+            background: linear-gradient(145deg, #fff, #9cf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 12px #0ff);
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #aad0ff;
+        }
+
+        /* EMAIL FORM */
+        .notify-form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2.5rem 0 1.2rem;
+        }
+
+        .email-input {
+            flex: 1 1 280px;
+            padding: 1rem 1.8rem;
+            border: none;
+            border-radius: 60px;
+            background: rgba(10, 20, 35, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .email-input:focus {
+            border-color: #f0f;
+            box-shadow: 0 0 30px #f0f, 0 0 15px #0ff;
+        }
+
+        .btn-glow {
+            background: rgba(0, 10, 20, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #0ff;
+            padding: 1rem 2.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.25s;
+            box-shadow: 0 0 20px #0ff, 0 5px 15px rgba(0, 0, 0, 0.6);
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-glow:hover {
+            background: #0ff1;
+            border-color: #f0f;
+            box-shadow: 0 0 40px #f0f, 0 0 70px #0ff;
+            transform: scale(1.02);
+            color: #fff;
+        }
+
+        /* FEATURE CARDS grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin: 5rem 0 3rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem 1.8rem;
+            text-align: center;
+            background: rgba(15, 20, 35, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            border-radius: 48px;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 0 15px 30px -15px #000, 0 0 0 1px rgba(255, 0, 255, 0.1);
+        }
+
+        .feature-card:hover {
+            border-color: #f0f;
+            box-shadow: 0 20px 40px -12px #000, 0 0 45px #ff00ff80, 0 0 20px #0ff;
+            transform: scale(1.02) translateY(-8px);
+        }
+
+        .feature-icon {
+            font-size: 3.2rem;
+            margin-bottom: 1.2rem;
+            filter: drop-shadow(0 0 15px cyan);
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            background: linear-gradient(145deg, #fff, #b8f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .feature-card p {
+            color: #b0ceff;
+            font-weight: 300;
+        }
+
+        /* FOOTER */
+        .footer {
+            margin-top: 5rem;
+            padding: 2rem 0 1.5rem;
+            background: rgba(0, 5, 12, 0.4);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 60px 60px 0 0;
+            box-shadow: 0 -10px 30px rgba(0, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: #cdf;
+            font-size: 1.8rem;
+            margin: 0 0.8rem;
+            transition: all 0.2s;
+            display: inline-block;
+            filter: drop-shadow(0 0 8px cyan);
+        }
+
+        .social-links a:hover {
+            color: white;
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 20px #f0f) drop-shadow(0 0 10px #0ff);
+        }
+
+        .copyright {
+            color: #9bc;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .contact-email {
+            font-size: 1.2rem;
+            background: rgba(0, 255, 255, 0.1);
+            padding: 0.5rem 1.8rem;
+            border-radius: 50px;
+            border: 1px solid #0ff3;
+        }
+
+        .contact-email i {
+            margin-right: 8px;
+            color: #0ff;
+        }
+
+        /* floating extras */
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* responsive touches */
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            .countdown-item {
+                padding: 0.8rem 1rem;
+                min-width: 70px;
+            }
+
+            .countdown-value {
+                font-size: 2.2rem;
+            }
+
+            .btn-glow {
+                padding: 0.9rem 2rem;
+            }
+        }
+
+        /* small message after submit */
+        #form-message {
+            min-height: 2rem;
+            color: #aef;
+            font-weight: 300;
+            text-shadow: 0 0 10px cyan;
+        }
+
+        /* aos custom */
+        [data-aos] {
+            pointer-events: none;
+        }
+
+        [data-aos].aos-animate {
+            pointer-events: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOADING ANIMATION -->
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <!-- PARTICLES BACKGROUND (animated) -->
+    <div id="particles-js"></div>
+
+    <main class="container">
+        <!-- HERO SECTION -->
+        <section class="hero" data-aos="fade-up" data-aos-duration="1200">
+            <h1 class="floating">Something Amazing<br>is Coming Soon</h1>
+            <p class="subhead" data-aos="fade-up" data-aos-delay="100">ashish building a powerful online store just for
+                you.</p>
+
+            <!-- COUNTDOWN TIMER -->
+            <div class="countdown" id="countdown" data-aos="zoom-in" data-aos-delay="200">
+                <div class="countdown-item">
+                    <span class="countdown-value" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+
+            <!-- EMAIL SUBSCRIPTION + NOTIFY BUTTON -->
+            <div class="notify-form" data-aos="fade-up" data-aos-delay="300">
+                <input type="email" class="email-input" id="emailInput" placeholder="Enter your email" required>
+                <button class="btn-glow" id="notifyBtn"><i class="fas fa-bell"></i> Notify Me</button>
+            </div>
+            <div id="form-message"></div>
+        </section>
+
+        <!-- FEATURES SECTION (3 cards) -->
+        <section class="features-grid" id="features">
+            <!-- card 1 -->
+            <div class="feature-card" data-aos="fade-right" data-aos-delay="50">
+                <div class="feature-icon"><i class="fas fa-crown"></i></div>
+                <h3>Premium Quality</h3>
+                <p>Curated products, exceptional materials — only the best.</p>
+            </div>
+            <!-- card 2 -->
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                <h3>Fast & Secure</h3>
+                <p>Lightning delivery & bank‑grade security for peace of mind.</p>
+            </div>
+            <!-- card 3 -->
+            <div class="feature-card" data-aos="fade-left" data-aos-delay="150">
+                <div class="feature-icon"><i class="fas fa-tags"></i></div>
+                <h3>Best Prices</h3>
+                <p>Unbeatable value, transparent pricing, and members perks.</p>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer" data-aos="fade-in">
+            <div class="footer-content">
+                <div class="copyright">
+                    <i class="far fa-copyright"></i> 2026 Storeverse. All rights reserved.
+                </div>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="contact-email">
+                    <i class="far fa-envelope"></i> hello@store.preview
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- SCRIPTS -->
+    <!-- AOS library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- tsParticles for animated background -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+
+    <script>
+        (function () {
+            // ------ PAGE LOADER ------
+            window.addEventListener('load', function () {
+                document.getElementById('loader-wrapper').classList.add('hidden');
+            });
+
+            // ------ INIT AOS (scroll animations) ------
+            AOS.init({
+                duration: 900,
+                once: true,
+                mirror: false,
+                offset: 20,
+                easing: 'ease-out-cubic'
+            });
+
+            // ------ COUNTDOWN TIMER (set launch to 30 days from now) ------
+            const launchDate = new Date();
+            launchDate.setDate(launchDate.getDate() + 30); // 30 days later
+            launchDate.setHours(0, 0, 0, 0); // optional: set to midnight
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = launchDate - now;
+
+                if (distance < 0) {
+                    // if passed, set new 1 day (or static for demo)
+                    document.getElementById('days').innerText = '00';
+                    document.getElementById('hours').innerText = '00';
+                    document.getElementById('minutes').innerText = '00';
+                    document.getElementById('seconds').innerText = '00';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (86400000)) / (3600000));
+                const minutes = Math.floor((distance % 3600000) / 60000);
+                const seconds = Math.floor((distance % 60000) / 1000);
+
+                document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+                document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+                document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // ------ EMAIL SUBSCRIPTION (mock) ------
+            const notifyBtn = document.getElementById('notifyBtn');
+            const emailInput = document.getElementById('emailInput');
+            const formMessage = document.getElementById('form-message');
+
+            notifyBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                if (!email) {
+                    formMessage.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#f6f;"></i> Please enter your email.';
+                    return;
+                }
+                if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    formMessage.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#f6f;"></i> Invalid email format.';
+                    return;
+                }
+                formMessage.innerHTML = '<i class="fas fa-check-circle" style="color:#0ff;"></i> Thanks! We’ll notify you at launch.';
+                emailInput.value = '';
+                // optional: animate button
+                notifyBtn.style.transform = 'scale(0.98)';
+                setTimeout(() => notifyBtn.style.transform = '', 150);
+            });
+
+            // ------ INIT TSPARTICLES (animated background) ------
+            tsParticles.load({
+                id: "particles-js",
+                options: {
+                    background: { color: { value: "transparent" } },
+                    fpsLimit: 60,
+                    particles: {
+                        number: { value: 50, density: { enable: true, area: 800 } },
+                        color: { value: ["#00ffff", "#ff00ff", "#88aaff"] },
+                        shape: { type: "circle" },
+                        opacity: {
+                            value: 0.3,
+                            random: true,
+                            animation: { enable: true, speed: 1, minimumValue: 0.1, sync: false }
+                        },
+                        size: {
+                            value: { min: 1, max: 4 },
+                            random: true,
+                            animation: { enable: true, speed: 3, minimumValue: 0.5, sync: false }
+                        },
+                        move: {
+                            enable: true,
+                            speed: 1.2,
+                            direction: "none",
+                            random: true,
+                            straight: false,
+                            outModes: { default: "out" },
+                            attract: { enable: false }
+                        },
+                        links: {
+                            enable: true,
+                            distance: 150,
+                            color: "#55ccff",
+                            opacity: 0.15,
+                            width: 1,
+                            triangles: { enable: false }
+                        }
+                    },
+                    interactivity: {
+                        events: {
+                            onHover: { enable: true, mode: "grab" },
+                            onClick: { enable: true, mode: "push" }
+                        },
+                        modes: {
+                            grab: { distance: 180, links: { opacity: 0.6 } },
+                            push: { quantity: 2 }
+                        }
+                    },
+                    detectRetina: true,
+                    emitters: []
+                }
+            });
+
+            // smooth additional floating via CSS already.
+        })();
+    </script>
+    <!-- small extra hover glow for buttons already in css -->
+    <noscript>Please enable JavaScript for full experience.</noscript>
+</body>
+
+</html>
